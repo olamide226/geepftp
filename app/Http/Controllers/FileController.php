@@ -57,6 +57,7 @@ class FileController extends Controller
         $data = $request->all();
         $data['name'] = $fileName;
         $data['user_id'] = $request->user()->id;
+        $data['email'] = $request->username;
   
         File::create($data);
    
