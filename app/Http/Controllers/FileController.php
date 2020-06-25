@@ -73,8 +73,14 @@ class FileController extends Controller
      */
     public function show(File $file)
     {
-        //
+       
     }
+    public function showSuccess()
+    {
+        return redirect()->route('files.create')
+                        ->with('success','File Uploaded successfully.');
+    }
+
 
     /**
      * Show the form for editing the specified resource.

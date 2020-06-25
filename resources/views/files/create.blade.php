@@ -112,7 +112,9 @@ uploadField.onchange = function() {
                     $("#progress-bar").html('<div id="progress-status">' + percentComplete +' %</div>')
                 },
                 success:function (data){
-                    $('#loader-icon').hide();
+                    // $('#loader-icon').hide();
+                    window.location = "{{ route('showSuccess') }}"
+
 
                 },
                 error: function(xhr, error){

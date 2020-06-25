@@ -21,5 +21,6 @@ Auth::routes();
 Route::resource('files','FileController');
 
 Route::get('/home', 'FileController@create')->name('home');
+Route::get('/showSuccess', 'FileController@showSuccess')->name('showSuccess');
 // Route::get('file-upload', 'FileUploadController@fileUpload')->name('file.upload');
 Route::post('file-upload', 'UploadFileController@fileUploadPost')->name('file.upload.post');
