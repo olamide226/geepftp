@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+<style>
+
+#progress-bar {background-color: #12CC1A;height:20px;color: #FFFFFF;width:0%;-webkit-transition: width .3s;-moz-transition: width .3s;transition: width .3s;}
+
+#progress-div {border:#0FA015 1px solid;padding: 5px 0px;margin:30px 0px;border-radius:4px;text-align:center;}
+#targetLayer{width:100%;text-align:center;}
+
+</style>
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -23,7 +32,8 @@
         @endif
 
         @if (count($errors) > 0)
-            <div class="alert alert-danger">
+            
+            <div class="alert alert-danger" id="err1">
                 <strong>Whoops!</strong> There were some problems with your input.
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -32,6 +42,12 @@
                 </ul>
             </div>
         @endif
+        <div class="alert alert-danger" id="err" style="display: none;">
+                <strong>Whoops!</strong> There were some problems with your input.
+                <ul id="ul">
+                    
+                </ul>
+            </div>
   
 
 
@@ -39,26 +55,29 @@
                         @csrf
 
 
-<input id="uploadImage" class="form-control" type="file" accept=".csv,.xlsx,xls,.zip" name="file" />
+<input id="uploadImage" class="form-control" type="file" accept=".csv,.xlsx,xls,.zip" name="file" required />
 <br><br>
-<select class="form-control" id="sel1" name="source">
+<select class="form-control" id="sel1" name="source" required>
 
-                      <option value="">Select Category..</option>
+                      <option value="">Select Source..</option>
                       <option value="Paydirect">Paydirect</option>
                       <option value="OneCard">OneCard</option>
                       <option value="Amplified">Amplified DB</option>
                     </select>
                     <hr/>
-<input class="btn btn-success" type="submit" value="Upload">
+<input class="btn btn-success" type="submit" value="Upload" id="sub">
+<div id="progress-div"><div id="progress-bar"></div></div>
+
 
 </form>
-                
+    <div id="loader-icon" style="display:none;"><img src="LoaderIcon.gif" /></div>
 
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     var uploadField = document.getElementById("uploadImage");
 
@@ -68,5 +87,51 @@ uploadField.onchange = function() {
        this.value = "";
     };
 };
+</script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/jform.js') }}"></script>
+    <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
+
+<script type="text/javascript">
+    $(document).ready(function() { 
+     $('#form').submit(function(e) {  
+        if($('#uploadImage').val()) {
+            e.preventDefault();
+            $('#sub').attr('disabled',true);
+            $('#loader-icon').show();
+            $('#err').hide();
+            $('#err1').hide();
+            $('#ul').empty();
+            $(this).ajaxSubmit({ 
+                target:   '#app', 
+                beforeSubmit: function() {
+                  $("#progress-bar").width('0%');
+                },
+                uploadProgress: function (event, position, total, percentComplete){ 
+                    $("#progress-bar").width(percentComplete + '%');
+                    $("#progress-bar").html('<div id="progress-status">' + percentComplete +' %</div>')
+                },
+                success:function (data){
+                    $('#loader-icon').hide();
+
+                },
+                error: function(xhr, error){
+                    $('#loader-icon').hide();
+                    const values = Object.values(xhr.responseJSON.errors)
+        // console.log(xhr.responseJSON.errors.source[0]); console.log(xhr.responseJSON.errors.file[0]);
+        // console.log(values)
+        for (const key of values) {
+            // console.log(key[0]);
+            $('#ul').append(`<li>${key[0]}</li>`)
+        }
+        $('#err').show();
+             },
+                resetForm: true 
+            }); 
+            return false; 
+        }
+    });
+}); 
+
 </script>
 @endsection
