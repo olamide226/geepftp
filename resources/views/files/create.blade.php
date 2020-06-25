@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            @if($lastDate[0]->ddate)<small>You Last Uploaded on {{ date('d-M-y', strtotime($lastDate[0]->ddate)) }}</small> @endif
+            @if($lastDate[0]->ddate)<small>You Last Uploaded on {{ date('jS-M-yy h:i:s A', strtotime($lastDate[0]->ddate)) }}</small> @endif
             <div class="card">
                 <div class="card-header">Upload Files</div>
 
