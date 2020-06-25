@@ -46,12 +46,17 @@ class FileController extends Controller
             'file' => 'required|mimes:xlsx,xlx,xls,csv,zip,txt|max:1000048',
             
         ]);
-        $fileName = $request->source .'.'.$request->file->extension();  
+        if ('txt'==$request->file->extension()) {
+            $fileName = $request->source .'.csv';
+        }else{
+            $fileName = $request->source .'.'.$request->file->extension();  
+
+        }
    
         $request->file->move(public_path('uploads'), $fileName);
         $data = $request->all();
-    $data['name'] = $fileName;
-    $data['user_id'] = $request->user()->id;
+        $data['name'] = $fileName;
+        $data['user_id'] = $request->user()->id;
   
         File::create($data);
    
