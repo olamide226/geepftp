@@ -63,6 +63,10 @@
                       <option value="Paydirect">Paydirect</option>
                       <option value="OneCard">OneCard</option>
                       <option value="Amplified">Amplified DB</option>
+                      <option value="3rdParty">3rd Party Report</option>
+                      <option value="AllDisbursed">All Disbursed</option>
+                      <option value="PAR">PAR</option>
+                      <option value="ClosedLoans">Closed Loans</option>
                     </select>
                     <hr/>
 <input class="btn btn-success" type="submit" value="Upload" id="sub">
