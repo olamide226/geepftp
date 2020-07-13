@@ -26,13 +26,13 @@ Route::resource('files','FileController');
 
 Route::get('/home', 'FileController@create')->name('home');
 Route::get('/showSuccess', 'FileController@showSuccess')->name('showSuccess');
-Route::get('/fj', function (Request $request)
+Route::get('/sm-test', function (Request $request)
 {
   try {
     Mail::to('olamideadebayo2001@gmail.com')
-     ->cc(['olamide@ebis.com.ng','flexzone226@gmail.com'])
-     ->send(new Notification("ol",'Filename'));
-     return 'A message has been sent to Mailtrap!';
+     // ->cc(['olamide@ebis.com.ng','flexzone226@gmail.com'])
+     ->send(new Notification("Ola",'Filename test'));
+     return 'A message has been sent!';
   }
   catch (\Swift_TransportException $e) {
       echo $e->getMessage();

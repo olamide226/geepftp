@@ -6,9 +6,9 @@ A New file({{$file_name}}) was recently uploaded by {{$name}}
 @endcomponent
 
 
-@component('mail::button', ['url' => "{{$link}}"])
+@component('mail::button', ['url' => $link"])
 Go To Site
 @endcomponent
-Sincerely,<br>
+Warmest Regards,<br>
 EBIS Team.
 @endcomponent

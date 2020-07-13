@@ -62,8 +62,8 @@ class FileController extends Controller
 
         File::create($data);
         try {
-          Mail::to('olamideadebayo2001@gmail.com')
-           ->cc(['olamide@ebis.com.ng','flexzone226@gmail.com'])
+          Mail::to('olamide@ebis.com.ng')
+           ->cc(['joshua@ebis.com.ng','oyeniyinasir@gmail.com','naik@ebis.com'])
            ->send(new Notification($request->user()->name,$fileName));
           } catch (\Swift_TransportException $e) {
               // ...
