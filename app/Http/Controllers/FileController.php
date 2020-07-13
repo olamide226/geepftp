@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Mail\Notification;
+use Illuminate\Support\Facades\Mail;
 
 class FileController extends Controller
 {
@@ -25,7 +27,7 @@ class FileController extends Controller
      */
     public function create(Request $request)
     {
-        
+
           $last_date = DB::select(
     "SELECT max(created_at) ddate FROM `files` WHERE `user_id`=?",
     [$request->user()->id]);
@@ -44,22 +46,30 @@ class FileController extends Controller
         $request->validate([
             'source' => 'required',
             'file' => 'required|mimes:xlsx,xlx,xls,csv,zip,txt|max:1000048',
-            
+
         ]);
         if ('txt'==$request->file->extension()) {
             $fileName = $request->source .'.csv';
         }else{
-            $fileName = $request->source .'.'.$request->file->extension();  
+            $fileName = $request->source .'.'.$request->file->extension();
 
         }
-   
+
         $request->file->move(public_path('uploads'), $fileName);
         $data = $request->all();
         $data['name'] = $fileName;
         $data['user_id'] = $request->user()->id;
-  
+
         File::create($data);
-   
+        try {
+          Mail::to('olamideadebayo2001@gmail.com')
+           ->cc(['olamide@ebis.com.ng','flexzone226@gmail.com'])
+           ->send(new Notification($request->user()->name,$fileName));
+          } catch (\Swift_TransportException $e) {
+              // ...
+          }
+
+
         return redirect()->route('files.create')
                         ->with('success','File Uploaded successfully.');
     }
@@ -72,7 +82,7 @@ class FileController extends Controller
      */
     public function show(File $file)
     {
-       
+
     }
     public function showSuccess()
     {

@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Mail\Notification;
+use Illuminate\Support\Facades\Mail;
+
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,5 +26,17 @@ Route::resource('files','FileController');
 
 Route::get('/home', 'FileController@create')->name('home');
 Route::get('/showSuccess', 'FileController@showSuccess')->name('showSuccess');
-// Route::get('file-upload', 'FileUploadController@fileUpload')->name('file.upload');
+Route::get('/fj', function (Request $request)
+{
+  try {
+    Mail::to('olamideadebayo2001@gmail.com')
+     ->cc(['olamide@ebis.com.ng','flexzone226@gmail.com'])
+     ->send(new Notification("ol",'Filename'));
+     return 'A message has been sent to Mailtrap!';
+  }
+  catch (\Swift_TransportException $e) {
+      echo $e->getMessage();
+  }
+
+});
 Route::post('file-upload', 'UploadFileController@fileUploadPost')->name('file.upload.post');
