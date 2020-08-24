@@ -67,6 +67,7 @@
                       <option value="AllDisbursed">All Disbursed</option>
                       <option value="PAR">PAR</option>
                       <option value="ClosedLoans">Closed Loans</option>
+                      <option value="cbr">CBR(Customer Base Records)</option>
                     </select>
                     <hr/>
 <input class="btn btn-success" type="submit" value="Upload" id="sub">
